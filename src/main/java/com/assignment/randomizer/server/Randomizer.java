@@ -1,6 +1,10 @@
 package com.assignment.randomizer.server;
 
 import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
 import com.assignment.randomize.queue.DistributedQueue;
 
 
@@ -16,9 +20,11 @@ public class Randomizer {
 	}
 	
 	public void execute() {
-	    
+		Executor senderExecutor = Executors.newSingleThreadExecutor();
+		Executor receiverExecutor = Executors.newSingleThreadExecutor();
+
 		//Start a thread to send data to client queue
-		new Thread(() -> {
+		senderExecutor.execute(() -> {
 			System.out.println("Started.");
 			while (true) {
 				try {
@@ -29,10 +35,10 @@ public class Randomizer {
 					return;
 				}
 			}
-		}).start();
+		});
 		
 		//Start a thread to get result from client queue (Printer thread) 
-		new Thread(() -> {
+		receiverExecutor.execute(() -> {
 			while (true) {
 				try {
 					Payload result = queue.getFromOutQueue(); //Blocking
@@ -42,7 +48,7 @@ public class Randomizer {
 					return;
 				}
 			}
-		}).start();
+		});
 
 	}
 	
