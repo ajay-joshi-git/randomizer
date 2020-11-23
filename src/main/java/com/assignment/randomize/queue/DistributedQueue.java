@@ -16,6 +16,7 @@ public class DistributedQueue {
 	
 	QueueManager<Payload> outQManager;
 	QueueManager<Integer> inQManager;
+	int count = 0;
 	
 	public DistributedQueue(int serverPort) {
 		queueThread = new QueueThread(serverPort);
@@ -126,8 +127,9 @@ public class DistributedQueue {
 			
 			//here sending to client 
 			out.writeInt(data);
+			++count;
 			
-			return new Payload(in.readInt(), in.readBoolean());
+			return new Payload(in.readInt(), in.readBoolean(), count);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

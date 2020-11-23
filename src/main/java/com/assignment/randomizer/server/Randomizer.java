@@ -3,7 +3,6 @@ package com.assignment.randomizer.server;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import com.assignment.randomize.queue.DistributedQueue;
 
@@ -42,7 +41,7 @@ public class Randomizer {
 			while (true) {
 				try {
 					Payload result = queue.getFromOutQueue(); //Blocking
-						System.out.println("Random number [" + result.getNum() + "] is "  + ((result.isPrime()) ? "" : "not") + " a prime number");
+						System.out.println("Random number [" + result.getNum() + "] is "  + ((result.isPrime()) ? "" : "not") + " a prime number" + " : total numbers processed [" + result.getCount() +  "]" );
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 					return;
