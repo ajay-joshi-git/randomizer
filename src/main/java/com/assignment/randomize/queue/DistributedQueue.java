@@ -13,8 +13,7 @@ import com.assignment.randomizer.server.Payload;
 public class DistributedQueue {
 	
 	private final QueueThread queueThread;
-	private DataInputStream in;
-	private DataOutputStream out;
+	
 	QueueManager<Payload> outQManager;
 	QueueManager<Integer> inQManager;
 	
@@ -54,6 +53,8 @@ public class DistributedQueue {
 	
 	class QueueThread implements Runnable {
 		private final int serverPort;
+		DataInputStream in;
+		DataOutputStream out;
 		
 		public QueueThread(int serverPort) {
 			this.serverPort = serverPort;
@@ -96,7 +97,12 @@ public class DistributedQueue {
 							}
 						} finally {
 							
-							close();
+							try {
+								in.close();
+								out.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						}
 					};	
 					
@@ -114,16 +120,7 @@ public class DistributedQueue {
 			}
 		}
 	}
-	
-	private void close() {
-		try {
-			in.close();
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+		
 	public Payload process(DataOutputStream out, DataInputStream in, int data) {
 		try {
 			
