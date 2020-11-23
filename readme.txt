@@ -14,8 +14,8 @@ Expected o/p:
 Starting randomizer and distributed queue....
 Starting queue..
 Started.
-Random number [21518027] is a prime number
-Random number [1848046472] is not a prime number
+Random number [21518027] is a prime number : total numbers processed [1]
+Random number [1848046472] is not a prime number : total numbers processed [2]
 ..
 
 Starting Prime...
